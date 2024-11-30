@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balanço Financeiro Mensal</title>
+    <style>
+        /* Estilos atualizados para melhor estética e responsividade */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 960px;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 100px; /* Reduz a altura do textarea */
+            margin-bottom: 20px;
+            resize: vertical;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .btn {
+            display: block;
+            margin: 0 auto 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .saldo {
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+        }
+        .resumo {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .section {
+            margin-top: 40px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #000; /* Aplicação das grades nas tabelas */
+        }
+        th, td {
+            padding: 8px;
+            text-align: center; /* Centraliza os dados da tabela */
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        /* Ajustes responsivos */
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            th, td {
+                padding: 6px;
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+        /* Estilos para o modal */
+        .modal {
+            display: none; /* Oculto por padrão */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Habilita rolagem se necessário */
+            background-color: rgba(0,0,0,0.4); /* Fundo preto com transparência */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% do topo e centralizado */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Pode ser ajustado */
+            max-width: 500px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+        /* Estilo para o cabeçalho personalizado */
+        .custom-header {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        /* Esconde elementos na impressão/PDF */
+        @media print {
+            #dataInputSection, .btn {
+                display: none;
+            }
+        }
+    </style>
+    <!-- Inclusão das bibliotecas jsPDF e html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Balanço Financeiro Mensal</h1>
+
+        <!-- Seção para inserir dados -->
+        <div id="dataInputSection">
+            <textarea id="dataInput" placeholder="Cole os dados aqui..."></textarea>
+            <!-- Campo para inserir mês e ano -->
+            <div style="text-align: center; margin-bottom: 20px;">
+                <label for="mes">Mês:</label>
+                <input type="text" id="mes" placeholder="Ex: Dezembro">
+                <label for="ano">Ano:</label>
+                <input type="text" id="ano" placeholder="Ex: 2023">
+            </div>
+            <button class="btn" onclick="processarDados()">Processar Dados</button>
+        </div>
+
+        <!-- Cabeçalho personalizado -->
+        <div class="custom-header" id="customHeader" style="display: none;">
+            <p>M.CC. Instituto PE. Paulo Canelles do Recife</p>
+            <p>CNPJ: 11.500;204/0001-08</p>
+            <p id="mesAno"></p>
+        </div>
+
+        <!-- Tabelas de Créditos e Débitos -->
+        <div class="section" id="tablesSection" style="display: none;">
+            <h2>Créditos</h2>
+            <table id="creditosTabela">
+                <thead>
+                    <tr>
+                        <th>Dia</th>
+                        <th>Histórico</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Créditos serão inseridos aqui -->
+                </tbody>
+            </table>
+
+            <h2>Débitos</h2>
+            <table id="debitosTabela">
+                <thead>
+                    <tr>
+                        <th>Dia</th>
+                        <th>Histórico</th>
+                        <th>Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Débitos serão inseridos aqui -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Resumo Financeiro -->
+        <div class="resumo" id="resumoFinanceiro" style="display: none;">
+            <!-- Saldo Anterior, Totais e Saldo Calculado aparecerão aqui -->
+        </div>
+
+        <!-- Saldo Final em negrito -->
+        <div class="saldo" id="saldoFinal" style="font-weight:bold; display: none;"></div>
+
+        <!-- Botão para exportar em PDF -->
+        <button class="btn" id="exportarBtn" onclick="exportarPDF()" style="display: none;">Exportar para PDF</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="modalExplicacao" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <p id="textoModal"></p>
+        </div>
+    </div>
+
+    <script>
+        function processarDados() {
+            const dataInput = document.getElementById('dataInput').value;
+            const mesInput = document.getElementById('mes').value;
+            const anoInput = document.getElementById('ano').value;
+
+            if (!dataInput || !mesInput || !anoInput) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
+
+            const creditosBody = document.querySelector("#creditosTabela tbody");
+            const debitosBody = document.querySelector("#debitosTabela tbody");
+            const resumoDiv = document.getElementById('resumoFinanceiro');
+            const saldoFinalDiv = document.getElementById('saldoFinal');
+            const customHeader = document.getElementById('customHeader');
+            const mesAno = document.getElementById('mesAno');
+            const tablesSection = document.getElementById('tablesSection');
+            const exportarBtn = document.getElementById('exportarBtn');
+
+            // Limpa as áreas antes de adicionar novos dados
+            creditosBody.innerHTML = "";
+            debitosBody.innerHTML = "";
+            resumoDiv.innerHTML = "";
+            saldoFinalDiv.textContent = "";
+            mesAno.textContent = "";
+
+            let saldoAnterior = 0;
+            let saldoFinal = 0;
+            let totalCreditos = 0;
+            let totalDebitos = 0;
+
+            const linhas = dataInput.split('\n');
+            for (let i = 0; i < linhas.length; i++) {
+                let linha = linhas[i].trim();
+
+                // Verifica saldos
+                const saldoRegex = /^(?:\d{2}\/\d{2}\/\d{4}\s+)?(Saldo Anterior|S A L D O)\s+([\d.,]+)\s*\(\+\)$/i;
+                const transacaoRegex = /^(\d{2}\/\d{2}\/\d{4})\s+(.+?)\s+([\d.,]+)\s+\((\+|-)\)$/;
+                const descricaoExtraRegex = /^\d{2}\/\d{2}\s+\d{2}:\d{2}\s+(.+)$/;
+                const descricaoSimplesRegex = /^(.+)$/;
+
+                if (saldoRegex.test(linha)) {
+                    const saldoMatch = linha.match(saldoRegex);
+                    if (saldoMatch[1].toLowerCase() === 'saldo anterior') {
+                        saldoAnterior = parseFloat(saldoMatch[2].replace(/\./g, '').replace(',', '.'));
+                    } else {
+                        saldoFinal = parseFloat(saldoMatch[2].replace(/\./g, '').replace(',', '.'));
+                    }
+                } else if (transacaoRegex.test(linha)) {
+                    // Processa transações
+                    const match = linha.match(transacaoRegex);
+                    let [_, dia, historico, valor, tipo] = match;
+                    let descricaoAdicional = '';
+
+                    // Verifica se a próxima linha é uma descrição adicional
+                    if (linhas[i + 1]) {
+                        const proximaLinha = linhas[i + 1].trim();
+                        if (descricaoExtraRegex.test(proximaLinha)) {
+                            const descricaoMatch = proximaLinha.match(descricaoExtraRegex);
+                            descricaoAdicional = descricaoMatch[1];
+                            i++; // Pula a próxima linha
+                        } else if (descricaoSimplesRegex.test(proximaLinha) && !transacaoRegex.test(proximaLinha) && !saldoRegex.test(proximaLinha)) {
+                            descricaoAdicional = proximaLinha;
+                            i++; // Pula a próxima linha
+                        }
+                    }
+
+                    if (descricaoAdicional) {
+                        historico += ' - ' + descricaoAdicional;
+                    }
+
+                    const valorNumerico = parseFloat(valor.replace(/\./g, '').replace(',', '.'));
+                    const novaLinha = document.createElement('tr');
+
+                    novaLinha.innerHTML = `
+                        <td>${dia}</td>
+                        <td>${historico}</td>
+                        <td>R$ ${valorNumerico.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                    `;
+
+                    if (tipo === '+') {
+                        // Verifica se não é Saldo Anterior ou Saldo Final
+                        if (!historico.toLowerCase().includes('saldo anterior') && !historico.toLowerCase().includes('s a l d o')) {
+                            creditosBody.appendChild(novaLinha);
+                            totalCreditos += valorNumerico;
+                        }
+                    } else if (tipo === '-') {
+                        debitosBody.appendChild(novaLinha);
+                        totalDebitos += valorNumerico;
+                    }
+                }
+            }
+
+            // Atualiza o resumo financeiro com links para abrir o modal
+            const saldoCalculado = saldoAnterior + totalCreditos - totalDebitos;
+            resumoDiv.innerHTML = `
+                <p><a href="#" onclick="abrirModal('Saldo Anterior: Este é o saldo que você tinha antes das transações listadas.')">Saldo Anterior:</a> R$ ${saldoAnterior.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                <p><a href="#" onclick="abrirModal('Total de Créditos: Soma de todas as entradas de dinheiro no período.')">Total de Créditos:</a> R$ ${totalCreditos.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                <p><a href="#" onclick="abrirModal('Total de Débitos: Soma de todas as saídas de dinheiro no período.')">Total de Débitos:</a> R$ ${totalDebitos.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+                <p><a href="#" onclick="abrirModal('Saldo Calculado: Saldo Anterior + Total de Créditos - Total de Débitos.')">Saldo Calculado:</a> R$ ${saldoCalculado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            `;
+            saldoFinalDiv.innerHTML = `<a href="#" onclick="abrirModal('Saldo Final: Saldo atual após todas as transações.')">Saldo Final:</a> R$ ${saldoFinal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+            // Atualiza o cabeçalho com mês e ano
+            mesAno.textContent = `${mesInput} / ${anoInput}`;
+            customHeader.style.display = 'block';
+            tablesSection.style.display = 'block';
+            resumoDiv.style.display = 'block';
+            saldoFinalDiv.style.display = 'block';
+            exportarBtn.style.display = 'block';
+
+            // Oculta a seção de entrada de dados
+            document.getElementById('dataInputSection').style.display = 'none';
+        }
+
+        function abrirModal(texto) {
+            const modal = document.getElementById('modalExplicacao');
+            const textoModal = document.getElementById('textoModal');
+            textoModal.textContent = texto;
+            modal.style.display = 'block';
+        }
+
+        function fecharModal() {
+            const modal = document.getElementById('modalExplicacao');
+            modal.style.display = 'none';
+        }
+
+        // Fecha o modal quando o usuário clica fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalExplicacao');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+
+            const doc = new jsPDF('p', 'pt', 'a4');
+            const container = document.querySelector('.container');
+
+            // Oculta elementos que não devem aparecer no PDF
+            const dataInputSection = document.getElementById('dataInputSection');
+            const exportarBtn = document.getElementById('exportarBtn');
+            dataInputSection.style.display = 'none';
+            exportarBtn.style.display = 'none';
+
+            html2canvas(container).then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 595.28;
+                const pageHeight = 841.89;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    doc.addPage();
+                    doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                doc.save('balanco_financeiro.pdf');
+
+                // Restaura a exibição dos elementos
+                dataInputSection.style.display = 'none';
+                exportarBtn.style.display = 'block';
+            });
+        }
+    </script>
+</body>
+</html>
