@@ -6,202 +6,203 @@
     <title>Balanço Financeiro Mensal</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to bottom, #e9eef3 0%, #ffffff 100%);
-            color: #333;
-            box-sizing: border-box;
-        }
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #F9F9F9; /* Fundo claro */
+    color: #333;
+    box-sizing: border-box;
+}
 
-        *, *::before, *::after {
-            box-sizing: inherit;
-        }
+*, *::before, *::after {
+    box-sizing: inherit;
+}
 
-        header {
-            background: #007bff;
-            color: #ffffff;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        }
+header {
+    background: #454545; /* Cinza escuro */
+    color: #F9F9F9; /* Texto em fundo claro */
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 2.4em;
-            font-weight: 300;
-        }
+header h1 {
+    margin: 0;
+    font-size: 2.4em;
+    font-weight: 300;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+.container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-        .row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+.row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-        .row .form-group {
-            flex: 1;
-            min-width: 200px;
-        }
+.row .form-group {
+    flex: 1;
+    min-width: 200px;
+}
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+.form-group {
+    margin-bottom: 20px;
+}
 
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 1.1em;
-            color: #0056b3;
-        }
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+    color: #404040; /* Cinza médio-escuro */
+}
 
-        input[type="text"], textarea {
-            width: 100%;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 12px;
-            background: #f9f9f9;
-            transition: box-shadow 0.3s;
-        }
+input[type="text"], textarea {
+    width: 100%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 12px;
+    background: #F5F5F5; /* Cinza claro */
+    transition: box-shadow 0.3s;
+}
 
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            box-shadow: 0 0 5px rgba(0,123,255,0.3);
-            background: #ffffff;
-        }
+input[type="text"]:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(69, 69, 69, 0.3); /* Baseado no cinza escuro */
+    background: #FFFFFF;
+}
 
-        textarea {
-            height: 150px;
-            resize: none;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-        }
+textarea {
+    height: 150px;
+    resize: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-        .btn {
-            width: 100%;
-            padding: 15px;
-            font-size: 18px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-            margin-top: 10px;
-            font-weight: bold;
-        }
+.btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background: #454545; /* Cinza escuro */
+    color: #F9F9F9; /* Texto claro */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    margin-top: 10px;
+    font-weight: bold;
+}
 
-        .btn:hover {
-            background: #0056b3;
-            transform: scale(1.02);
-        }
+.btn:hover {
+    background: #404040; /* Cinza médio-escuro */
+    transform: scale(1.02);
+}
 
-        .btn:active {
-            transform: scale(0.98);
-        }
+.btn:active {
+    transform: scale(0.98);
+}
 
-        #errorMsg {
-            color: red;
-            margin-top: 10px;
-            font-weight: bold;
-            text-align: center;
-        }
+#errorMsg {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
 
-        h2 {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 1.8em;
-            color: #0056b3;
-            margin-bottom: 20px;
-        }
+h2 {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.8em;
+    color: #404040; /* Cinza médio-escuro */
+    margin-bottom: 20px;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-            background: #ffffff;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    background: #FFFFFF;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
 
-        table th, table td {
-            padding: 12px 20px;
-            font-size: 1em;
-        }
+table th, table td {
+    padding: 12px 20px;
+    font-size: 1em;
+}
 
-        table th {
-            background-color: #007bff;
-            color: #ffffff;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-align: center;
-        }
+table th {
+    background-color: #454545; /* Cinza escuro */
+    color: #F9F9F9; /* Texto claro */
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
 
-        table td {
-            text-align: center;
-            color: #555;
-        }
+table td {
+    text-align: center;
+    color: #555;
+}
 
-        table tr:nth-child(even) {
-            background-color: #f8f9fa;
-        }
+table tr:nth-child(even) {
+    background-color: #F5F5F5; /* Cinza claro */
+}
 
-        table tr:hover {
-            background-color: #e9ecef;
-        }
+table tr:hover {
+    background-color: #E9ECEF;
+}
 
-        .output-container {
-            display: none;
-        }
+.output-container {
+    display: none;
+}
 
-        .summary {
-            background: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px auto;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            max-width: 700px;
-        }
+.summary {
+    background: #FFFFFF;
+    border: 1px solid #DDD;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+}
 
-        .summary p {
-            margin: 8px 0;
-            font-size: 1.1em;
-            color: #333;
-        }
+.summary p {
+    margin: 8px 0;
+    font-size: 1.1em;
+    color: #333;
+}
 
-        .summary p strong {
-            color: #0056b3;
-        }
+.summary p strong {
+    color: #404040; /* Cinza médio-escuro */
+}
 
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            background: #007bff;
-            color: white;
-            font-size: 0.9em;
-        }
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background: #454545; /* Cinza escuro */
+    color: #F9F9F9; /* Texto claro */
+    font-size: 0.9em;
+}
 
-        footer a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: bold;
-        }
+footer a {
+    color: #F9F9F9; /* Texto claro */
+    text-decoration: none;
+    font-weight: bold;
+}
 
-        footer a:hover {
-            text-decoration: underline;
-        }
+footer a:hover {
+    text-decoration: underline;
+}
+
     </style>
 </head>
 <body>
