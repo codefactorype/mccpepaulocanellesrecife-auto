@@ -1,562 +1,214 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Balanço Financeiro Mensal</title>
-    <style>
-        body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #F9F9F9; /* Fundo claro */
-    color: #333;
-    box-sizing: border-box;
-}
-
-*, *::before, *::after {
-    box-sizing: inherit;
-}
-
-header {
-    background: #454545; /* Cinza escuro */
-    color: #F9F9F9; /* Texto em fundo claro */
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 2.4em;
-    font-weight: 300;
-}
-
-.container {
-    max-width: 1100px;
-    margin: 30px auto;
-    padding: 20px;
-    background: #FFFFFF;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.row .form-group {
-    flex: 1;
-    min-width: 200px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 8px;
-    font-size: 1.1em;
-    color: #404040; /* Cinza médio-escuro */
-}
-
-input[type="text"], textarea {
-    width: 100%;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 12px;
-    background: #F5F5F5; /* Cinza claro */
-    transition: box-shadow 0.3s;
-}
-
-input[type="text"]:focus, textarea:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(69, 69, 69, 0.3); /* Baseado no cinza escuro */
-    background: #FFFFFF;
-}
-
-textarea {
-    height: 150px;
-    resize: none;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.btn {
-    width: 100%;
-    padding: 15px;
-    font-size: 18px;
-    background: #454545; /* Cinza escuro */
-    color: #F9F9F9; /* Texto claro */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.btn:hover {
-    background: #404040; /* Cinza médio-escuro */
-    transform: scale(1.02);
-}
-
-.btn:active {
-    transform: scale(0.98);
-}
-
-#errorMsg {
-    color: red;
-    margin-top: 10px;
-    font-weight: bold;
-    text-align: center;
-}
-
-h2 {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 1.8em;
-    color: #404040; /* Cinza médio-escuro */
-    margin-bottom: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 30px 0;
-    background: #FFFFFF;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-table th, table td {
-    padding: 12px 20px;
-    font-size: 1em;
-}
-
-table th {
-    background-color: #454545; /* Cinza escuro */
-    color: #F9F9F9; /* Texto claro */
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-table td {
-    text-align: center;
-    color: #555;
-}
-
-table tr:nth-child(even) {
-    background-color: #F5F5F5; /* Cinza claro */
-}
-
-table tr:hover {
-    background-color: #E9ECEF;
-}
-
-.output-container {
-    display: none;
-}
-
-.summary {
-    background: #FFFFFF;
-    border: 1px solid #DDD;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 700px;
-}
-
-.summary p {
-    margin: 8px 0;
-    font-size: 1.1em;
-    color: #333;
-}
-
-.summary p strong {
-    color: #404040; /* Cinza médio-escuro */
-}
-
-footer {
-    text-align: center;
-    margin-top: 40px;
-    padding: 20px;
-    background: #454545; /* Cinza escuro */
-    color: #F9F9F9; /* Texto claro */
-    font-size: 0.9em;
-}
-
-footer a {
-    color: #F9F9F9; /* Texto claro */
-    text-decoration: none;
-    font-weight: bold;
-}
-
-footer a:hover {
-    text-decoration: underline;
-}
-
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Balanço Financeiro Mensal</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#F9F9F9; color:#333; }
+    h1,h2 { text-align:center; color:#404040; margin-bottom:20px; }
+    .container { max-width:1100px; margin:30px auto; padding:20px; background:#FFF; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,.1); }
+    label { display:block; margin-bottom:8px; font-weight:bold; }
+    textarea { width:100%; height:200px; padding:12px; border:1px solid #ccc; border-radius:5px; background:#F5F5F5; resize:none; }
+    .btn { width:100%; padding:15px; margin-top:10px; font-size:18px; font-weight:bold;
+           background:#454545; color:#F9F9F9; border:none; border-radius:5px; cursor:pointer; transition:.2s; }
+    .btn:hover { background:#404040; transform:scale(1.02); }
+    #errorMsg { color:red; text-align:center; margin-top:10px; font-weight:bold; }
+    table { width:100%; border-collapse:collapse; margin:20px 0; border-radius:8px; overflow:hidden; box-shadow:0 4px 6px rgba(0,0,0,.1); }
+    th, td { padding:12px 20px; text-align:center; font-size:1em; }
+    th { background:#454545; color:#F9F9F9; text-transform:uppercase; }
+    tr:nth-child(even) { background:#F5F5F5; }
+    tr:hover { background:#E9ECEF; }
+    .summary { max-width:700px; margin:20px auto; padding:20px; background:#FFF; border:1px solid #DDD; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,.1); }
+    .summary p { margin:8px 0; font-size:1.1em; }
+    .summary strong { color:#404040; }
+    .account-info { margin-bottom:20px; padding:15px; background:#FFF; border:1px solid #DDD; border-radius:8px; }
+    .account-info p { margin:6px 0; font-size:1.1em; }
+    .account-info strong { color:#404040; }
+    footer { text-align:center; padding:20px; background:#454545; color:#F9F9F9; margin-top:40px; font-size:.9em; }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Balanço Financeiro Mensal</h1>
-    </header>
-    <div class="container">
-        <form id="financeForm" novalidate>
-            <div class="row">
-                <div class="form-group">
-                    <label for="mes">Mês do Balanço (MM):</label>
-                    <input type="text" id="mes">
-                </div>
-                <div class="form-group">
-                    <label for="ano">Ano do Balanço (YYYY):</label>
-                    <input type="text" id="ano">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputData">Insira os dados do balanço financeiro:</label>
-                <textarea id="inputData"></textarea>
-            </div>
-            <button type="button" class="btn" id="exibirTabelaBtn">Exibir Tabela</button>
-            <div id="errorMsg" role="alert" aria-live="assertive"></div>
-        </form>
+
+  <header>
+    <h1>Balanço Financeiro Mensal</h1>
+  </header>
+
+  <div class="container">
+    <label for="inputData">Cole aqui seus dados (Dados da Conta + Lançamentos):</label>
+    <textarea id="inputData" placeholder="Dados da Conta&#10;Cliente: ...&#10;Agência: ...&#10;Conta: ...&#10;&#10;Lançamentos&#10;31/05/2024 Saldo Anterior +12.433,52&#10;03/06/2024 Transferência +320,00 RILDA MARIA SITONIO DOMI&#10;..."></textarea>
+    <button class="btn" id="exibirTabelaBtn">Importar Dados</button>
+    <div id="errorMsg" role="alert" aria-live="assertive"></div>
+  </div>
+
+  <div id="outputContainer" class="container" style="display:none;" aria-live="polite">
+    <h2>Dados da Conta</h2>
+    <div class="account-info">
+      <p><strong>Cliente:</strong> <span id="accountCliente">–</span></p>
+      <p><strong>Agência:</strong> <span id="accountAgencia">–</span></p>
+      <p><strong>Conta:</strong> <span id="accountConta">–</span></p>
     </div>
 
-    <div id="outputContainer" class="container output-container" aria-live="polite">
-        <h2>Receitas</h2>
-        <table id="revenueTable">
-            <thead>
-                <tr>
-                    <th scope="col">Data</th>
-                    <th scope="col">Descrição</th>
-                    <th scope="col">Valor</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <h2>Receitas</h2>
+    <table id="revenueTable">
+      <thead><tr><th>Data</th><th>Tipo</th><th>Valor</th><th>Descrição</th></tr></thead>
+      <tbody></tbody>
+    </table>
 
-        <h2>Despesas</h2>
-        <table id="expenseTable">
-            <thead>
-                <tr>
-                    <th scope="col">Data</th>
-                    <th scope="col">Descrição</th>
-                    <th scope="col">Valor</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <h2>Despesas</h2>
+    <table id="expenseTable">
+      <thead><tr><th>Data</th><th>Tipo</th><th>Valor</th><th>Descrição</th></tr></thead>
+      <tbody></tbody>
+    </table>
 
-        <div class="summary" id="summaryContainer">
-            <h2>Resumo Financeiro</h2>
-            <p><strong>Saldo Anterior:</strong> <span id="saldoAnterior">-</span></p>
-            <p><strong>Total de Receitas:</strong> <span id="totalReceitas">-</span></p>
-            <p><strong>Total de Despesas:</strong> <span id="totalDespesas">-</span></p>
-            <p><strong>Saldo Final:</strong> <span id="saldoFinal">-</span></p>
-            <p><strong>Resultado no Período:</strong> <span id="resultadoPeriodo">-</span></p>
-        </div>
-
-        <button class="btn" id="gerarPDFBtn">Gerar PDF</button>
+    <div class="summary" id="summaryContainer">
+      <h2>Resumo Financeiro</h2>
+      <p><strong>Saldo Anterior:</strong> <span id="saldoAnterior">–</span></p>
+      <p><strong>Total de Receitas:</strong> <span id="totalReceitas">–</span></p>
+      <p><strong>Total de Despesas:</strong> <span id="totalDespesas">–</span></p>
+      <p><strong>Saldo Final:</strong> <span id="saldoFinal">–</span></p>
+      <p><strong>Resultado no Período:</strong> <span id="resultadoPeriodo">–</span></p>
     </div>
 
-    <footer>
-       <a href="#" title="Autor"></a>2024
-    </footer>
+    <button class="btn" id="gerarPDFBtn">Gerar PDF</button>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
-    <script>
-        function processData() {
-            const inputData = document.getElementById("inputData").value;
-            const mes = document.getElementById("mes").value.trim();
-            const ano = document.getElementById("ano").value.trim();
-            const outputContainer = document.getElementById("outputContainer");
-            const revenueTableBody = document.querySelector("#revenueTable tbody");
-            const expenseTableBody = document.querySelector("#expenseTable tbody");
-            const saldoAnteriorEl = document.getElementById("saldoAnterior");
-            const totalReceitasEl = document.getElementById("totalReceitas");
-            const totalDespesasEl = document.getElementById("totalDespesas");
-            const saldoFinalEl = document.getElementById("saldoFinal");
-            const resultadoPeriodoEl = document.getElementById("resultadoPeriodo");
-            const errorMsg = document.getElementById("errorMsg");
+  <footer>© 2024</footer>
 
-            errorMsg.textContent = "";
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.14/jspdf.plugin.autotable.min.js"></script>
+  <script>
+    function processData() {
+      const lines = document.getElementById("inputData").value.trim().split("\n");
+      const errorMsg = document.getElementById("errorMsg");
+      errorMsg.textContent = "";
 
-            if (!mes || !ano) {
-                errorMsg.textContent = "Por favor, insira o mês e o ano do balanço.";
-                return;
-            }
+      // Extrair metadados
+      let cliente="", agencia="", conta="";
+      lines.forEach(l => {
+        if (/^Cliente:/i.test(l))    cliente = l.split(/Cliente:/i)[1].trim();
+        if (/^Agência:/i.test(l))    agencia = l.split(/Agência:/i)[1].trim();
+        if (/^Conta:/i.test(l))      conta   = l.split(/Conta:/i)[1].trim();
+      });
+      if (!cliente || !agencia || !conta) {
+        errorMsg.textContent = "Erro de parsing: verifique Cliente, Agência e Conta.";
+        return;
+      }
 
-            if (!inputData.trim()) {
-                errorMsg.textContent = "Por favor, insira os dados no formato fornecido.";
-                return;
-            }
+      // Regex de lançamentos: Data Tipo Valor Descrição
+      const regex = /^(\d{2}\/\d{2}\/\d{4})\s+(.+?)\s+([\+\-][\d\.\,]+)\s*(.*)$/;
+      const revenues = [], expenses = [];
+      let saldoAnterior = "", saldoFinal = "";
 
-            const lines = inputData.split("\n").map(l => l.trim()).filter(l => l !== "");
-            if (lines.length === 0) {
-                errorMsg.textContent = "Nenhuma linha de dados encontrada.";
-                return;
-            }
-
-            let currentSection = "";
-            let revenues = [];
-            let expenses = [];
-            let saldoAnterior = "";
-            let totalReceitas = "";
-            let totalDespesas = "";
-            let saldoFinal = "";
-            let resultadoPeriodo = "";
-
-            for (let line of lines) {
-                let lowerLine = line.toLowerCase();
-
-                if (lowerLine === "informações gerais") {
-                    currentSection = "info";
-                    continue;
-                }
-
-                if (lowerLine === "receitas") {
-                    currentSection = "receitas";
-                    continue;
-                }
-
-                if (lowerLine === "despesas") {
-                    currentSection = "despesas";
-                    continue;
-                }
-
-                if (lowerLine === "resumo") {
-                    currentSection = "resumo";
-                    continue;
-                }
-
-                // Informações Gerais
-                if (currentSection === "info") {
-                    if (lowerLine.startsWith("saldo anterior:")) {
-                        let parts = line.split(":");
-                        if (parts.length > 1) {
-                            let val = parts[1].split("(")[0].trim();
-                            saldoAnterior = val;
-                        }
-                    }
-                    if (lowerLine.startsWith("saldo final:")) {
-                        let parts = line.split(":");
-                        if (parts.length > 1) {
-                            let val = parts[1].split("(")[0].trim();
-                            saldoFinal = val;
-                        }
-                    }
-                }
-
-                // Receitas
-                if (currentSection === "receitas") {
-                    if (lowerLine.startsWith("total de receitas:")) {
-                        let parts = line.split(":");
-                        if (parts.length > 1) totalReceitas = parts[1].trim();
-                        continue;
-                    }
-
-                    // Formato: "DD/MM/YYYY: Descrição - R$ valor"
-                    if (line.match(/^\d{2}\/\d{2}\/\d{4}:/)) {
-                        let [datePart, rest] = line.split(": ");
-                        if (rest) {
-                            let descParts = rest.split(" - ");
-                            let value = descParts.pop();
-                            let description = descParts.join(" - ");
-                            let date = datePart.trim();
-                            revenues.push([date, description.trim(), value.trim()]);
-                        }
-                    }
-                }
-
-                // Despesas
-                if (currentSection === "despesas") {
-                    if (lowerLine.startsWith("total de despesas:")) {
-                        let parts = line.split(":");
-                        if (parts.length > 1) totalDespesas = parts[1].trim();
-                        continue;
-                    }
-
-                    if (line.match(/^\d{2}\/\d{2}\/\d{4}:/)) {
-                        let [datePart, rest] = line.split(": ");
-                        if (rest) {
-                            let descParts = rest.split(" - ");
-                            let value = descParts.pop();
-                            let description = descParts.join(" - ");
-                            let date = datePart.trim();
-                            expenses.push([date, description.trim(), value.trim()]);
-                        }
-                    }
-                }
-
-                // Resumo
-                if (currentSection === "resumo") {
-                    if (lowerLine.startsWith("resultado no período:")) {
-                        let parts = line.split(":");
-                        if (parts.length > 1) resultadoPeriodo = parts[1].trim();
-                    }
-
-                    if (!totalReceitas && lowerLine.startsWith("receitas:")) {
-                        let parts = line.split(":");
-                        if (parts.length > 1) totalReceitas = parts[1].trim();
-                    }
-
-                    if (!totalDespesas && lowerLine.startsWith("despesas:")) {
-                        let parts = line.split(":");
-                        if (parts.length > 1) totalDespesas = parts[1].trim();
-                    }
-                }
-            }
-
-            if (!saldoAnterior && !totalReceitas && !totalDespesas && !saldoFinal && !resultadoPeriodo && revenues.length === 0 && expenses.length === 0) {
-                errorMsg.textContent = "Os dados fornecidos não estão no formato esperado.";
-                return;
-            }
-
-            saldoAnteriorEl.textContent = saldoAnterior || "-";
-            totalReceitasEl.textContent = totalReceitas || "-";
-            totalDespesasEl.textContent = totalDespesas || "-";
-            saldoFinalEl.textContent = saldoFinal || "-";
-            resultadoPeriodoEl.textContent = resultadoPeriodo || "-";
-
-            revenueTableBody.innerHTML = revenues.length > 0
-                ? revenues.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("")
-                : `<tr><td colspan="3">Nenhuma receita encontrada</td></tr>`;
-
-            expenseTableBody.innerHTML = expenses.length > 0
-                ? expenses.map(row => `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td></tr>`).join("")
-                : `<tr><td colspan="3">Nenhuma despesa encontrada</td></tr>`;
-
-            outputContainer.style.display = "block";
+      lines.forEach(l => {
+        const m = l.match(regex);
+        if (!m) return;
+        const [, date, type, rawValue, desc] = m;
+        const value = rawValue;
+        const isPos = rawValue.startsWith("+");
+        const keyType = type.toLowerCase();
+        if (keyType.includes("saldo anterior")) {
+          saldoAnterior = value;
+        } else if (keyType.includes("saldo final")) {
+          saldoFinal = value;
+        } else if (isPos) {
+          revenues.push([date, type, value, desc]);
+        } else {
+          expenses.push([date, type, value, desc]);
         }
+      });
 
-        function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF({
-                orientation: 'p',
-                unit: 'pt',
-                format: 'a4'
-            });
+      // KPIs
+      const sumArr = arr => arr.reduce((s,r)=>
+        s + parseFloat(r[2].replace(/\./g,"").replace(/,/,".")), 0
+      ,0);
+      const totalRec = sumArr(revenues).toLocaleString("pt-BR",{minimumFractionDigits:2});
+      const totalDesp = sumArr(expenses).toLocaleString("pt-BR",{minimumFractionDigits:2});
+      const resultado = (sumArr(revenues)-sumArr(expenses))
+        .toLocaleString("pt-BR",{minimumFractionDigits:2});
 
-            // Ajusta o tamanho da fonte para ficar compatível com o restante do texto
-            doc.setFontSize(12);
+      // Preencher UI
+      document.getElementById("accountCliente").textContent = cliente;
+      document.getElementById("accountAgencia").textContent = agencia;
+      document.getElementById("accountConta").textContent   = conta;
+      const fill = (id, arr) => {
+        const body = document.querySelector(`#${id} tbody`);
+        body.innerHTML = arr.map(r=>
+          `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`
+        ).join("") || `<tr><td colspan="4">—</td></tr>`;
+      };
+      fill("revenueTable", revenues);
+      fill("expenseTable", expenses);
 
-            const mes = document.getElementById("mes").value.trim();
-            const ano = document.getElementById("ano").value.trim();
+      document.getElementById("saldoAnterior").textContent    = saldoAnterior;
+      document.getElementById("totalReceitas").textContent    = "+ " + totalRec;
+      document.getElementById("totalDespesas").textContent    = "- " + totalDesp;
+      document.getElementById("saldoFinal").textContent       = saldoFinal;
+      document.getElementById("resultadoPeriodo").textContent = (resultado.startsWith("-")? "- ":"+ ") + resultado;
 
-            const saldoAnterior = document.getElementById("saldoAnterior").textContent;
-            const totalReceitas = document.getElementById("totalReceitas").textContent;
-            const totalDespesas = document.getElementById("totalDespesas").textContent;
-            const saldoFinal = document.getElementById("saldoFinal").textContent;
-            const resultadoPeriodo = document.getElementById("resultadoPeriodo").textContent;
+      document.getElementById("outputContainer").style.display = "block";
+    }
 
-            const revenues = Array.from(document.querySelector("#revenueTable tbody").rows).map(row => [
-                row.cells[0].innerText,
-                row.cells[1].innerText,
-                row.cells[2].innerText,
-            ]);
-            const expenses = Array.from(document.querySelector("#expenseTable tbody").rows).map(row => [
-                row.cells[0].innerText,
-                row.cells[1].innerText,
-                row.cells[2].innerText,
-            ]);
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit:'pt', format:'a4' });
+      doc.setFontSize(12);
 
-            const generalStyles = {
-                halign: 'center',
-                cellPadding: 5,
-                fontSize: 12,
-                overflow: 'linebreak'
-            };
+      // Header
+      doc.setFont("helvetica","bold");
+      doc.text("M.CC. Instituto PE. Paulo Canelles do Recife", 297.5, 40, {align:"center"});
+      doc.setFont("helvetica","normal");
+      doc.text(`Cliente: ${document.getElementById("accountCliente").textContent}`, 60, 70);
+      doc.text(`Agência: ${document.getElementById("accountAgencia").textContent}`, 250, 70);
+      doc.text(`Conta: ${document.getElementById("accountConta").textContent}`, 400, 70);
 
-            // Margens simétricas para ajudar a centralizar a tabela horizontalmente
-            const marginSettings = {
-                top: 100,
-                bottom: 40,
-                left: 60,
-                right: 60
-            };
+      let y = 100;
+      const printSection = (title, tableId, color) => {
+        doc.setFont("helvetica","bold");
+        doc.text(title, 297.5, y, {align:"center"});
+        doc.autoTable({
+          startY: y + 10,
+          head: [[ "Data","Tipo","Valor","Descrição" ]],
+          body: Array.from(document.querySelector(`#${tableId} tbody`).rows)
+                     .map(r=> [r.cells[0].innerText, r.cells[1].innerText, r.cells[2].innerText, r.cells[3].innerText]),
+          theme: "grid",
+          headStyles:{ fillColor: color, halign:"center"},
+          styles:{ fontSize:10, cellPadding:5, halign:"center"},
+          margin:{ left:60, right:60 },
+          rowPageBreak:"avoid"
+        });
+        y = doc.lastAutoTable.finalY + 30;
+      };
 
-            doc.setFont("helvetica", "bold");
-            doc.text("M.CC. Instituto PE. Paulo Canelles do Recife", doc.internal.pageSize.getWidth() / 2, 40, { align: "center" });
-            doc.setFont("helvetica", "normal");
-            doc.text("CNPJ: 11.500.204/0001-08", doc.internal.pageSize.getWidth() / 2, 60, { align: "center" });
-            doc.text(`Balanço Financeiro Mensal - ${mes}/${ano}`, doc.internal.pageSize.getWidth() / 2, 80, { align: "center" });
+      printSection("Receitas", "revenueTable", [0,123,255]);
+      printSection("Despesas", "expenseTable", [255,77,77]);
 
-            let currentY = 100;
+      // Resumo
+      doc.setFont("helvetica","bold");
+      doc.text("Resumo Financeiro", 297.5, y, {align:"center"});
+      const resumo = [
+        ["Saldo Anterior", document.getElementById("saldoAnterior").textContent],
+        ["Total Receitas", document.getElementById("totalReceitas").textContent],
+        ["Total Despesas", document.getElementById("totalDespesas").textContent],
+        ["Saldo Final",   document.getElementById("saldoFinal").textContent],
+        ["Resultado no Período", document.getElementById("resultadoPeriodo").textContent]
+      ];
+      doc.autoTable({
+        startY: y + 10,
+        head: [["Item","Valor"]],
+        body: resumo,
+        theme:"grid",
+        headStyles:{ fillColor:[0,123,255], halign:"center"},
+        styles:{ fontSize:10, cellPadding:5, halign:"center"},
+        margin:{ left:60, right:60 }
+      });
 
-            // Receitas
-            doc.setFont("helvetica", "bold");
-            doc.text("Receitas", doc.internal.pageSize.getWidth() / 2, currentY, { align: "center" });
-            doc.setFont("helvetica", "normal");
-            doc.autoTable({
-                head: [["Data", "Descrição", "Valor"]],
-                body: revenues,
-                startY: currentY + 10,
-                theme: "grid",
-                styles: generalStyles,
-                headStyles: { fillColor: [0, 123, 255], halign: 'center', fontSize: 12 },
-                margin: marginSettings,
-                tableWidth: 'auto',
-                rowPageBreak: 'avoid'
-            });
+      doc.save(`balanco_financeiro.pdf`);
+    }
 
-            currentY = doc.lastAutoTable.finalY + 30;
-
-            // Despesas
-            doc.setFont("helvetica", "bold");
-            doc.text("Despesas", doc.internal.pageSize.getWidth() / 2, currentY, { align: "center" });
-            doc.setFont("helvetica", "normal");
-            doc.autoTable({
-                head: [["Data", "Descrição", "Valor"]],
-                body: expenses,
-                startY: currentY + 10,
-                theme: "grid",
-                styles: generalStyles,
-                headStyles: { fillColor: [255, 77, 77], halign: 'center', fontSize: 12 },
-                margin: marginSettings,
-                tableWidth: 'auto',
-                rowPageBreak: 'avoid'
-            });
-
-            currentY = doc.lastAutoTable.finalY + 30;
-
-            doc.setFont("helvetica", "bold");
-            doc.text("Resumo Financeiro", doc.internal.pageSize.getWidth() / 2, currentY, { align: "center" });
-            doc.setFont("helvetica", "normal");
-
-            const summary = [
-                ["Saldo Anterior", saldoAnterior],
-                ["Total de Receitas", totalReceitas],
-                ["Total de Despesas", totalDespesas],
-                ["Saldo Final", saldoFinal],
-                ["Resultado no Período", resultadoPeriodo],
-            ];
-
-            doc.autoTable({
-                head: [["Resumo", "Valores"]],
-                body: summary,
-                startY: currentY + 10,
-                theme: "grid",
-                styles: generalStyles,
-                headStyles: { fillColor: [0, 123, 255], halign: 'center', fontSize: 12 },
-                margin: marginSettings,
-                tableWidth: 'auto',
-                rowPageBreak: 'avoid'
-            });
-
-            doc.save(`balanco_financeiro_${mes}_${ano}.pdf`);
-        }
-
-        document.getElementById("exibirTabelaBtn").addEventListener("click", processData);
-        document.getElementById("gerarPDFBtn").addEventListener("click", generatePDF);
-    </script>
+    document.getElementById("exibirTabelaBtn").addEventListener("click", processData);
+    document.getElementById("gerarPDFBtn").addEventListener("click", generatePDF);
+  </script>
 </body>
 </html>
